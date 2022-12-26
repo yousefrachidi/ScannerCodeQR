@@ -20,6 +20,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.util.Size;
 import android.view.LayoutInflater;
@@ -58,7 +59,8 @@ public class PointActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        addDots();
+
+        runOnUiThread(() -> new Handler().postDelayed(this::addDots, 1000));
 
         //
         cameraProviderFuture = ProcessCameraProvider.getInstance(this);
@@ -69,7 +71,7 @@ public class PointActivity extends AppCompatActivity {
             try {
                 ProcessCameraProvider cameraProvider = cameraProviderFuture.get();
                 bindPreview(cameraProvider);
-            } catch (Exception e) {
+            } catch (Exception ignored) {
             }
         }, ContextCompat.getMainExecutor(this));
     }
@@ -97,14 +99,17 @@ public class PointActivity extends AppCompatActivity {
             int posX = random(rectf.left, rectf.right - 30);
             View viewLine = LayoutInflater.from(this).inflate(R.layout.circle_layout, null);
 
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(50, 50);
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(60, 60);
             viewLine.setLayoutParams(params);
 
             viewLine.setX(posX);
             viewLine.setPivotX(posX + 50);
+            viewLine.setY(50);
+            viewLine.setPivotY( 50);
             //animation
+            View btn = viewLine.findViewById(R.id.circlebutton);
             Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animate_zoom);
-            viewLine.startAnimation(animation);
+            btn.startAnimation(animation);
             binding.parentRelative.addView(viewLine);
         }
     }
