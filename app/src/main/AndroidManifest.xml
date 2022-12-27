@@ -20,11 +20,12 @@
         <activity
             android:name=".ui.PointActivity"
             android:exported="false"
+            android:screenOrientation="landscape"
             android:theme="@style/NoActionBarTheme"/>
         <activity
             android:name=".ui.BarcodeScanningActivity"
             android:exported="false"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="landscape"
             android:theme="@style/FullScreenTheme" />
         <activity
             android:name=".ui.MainActivity"

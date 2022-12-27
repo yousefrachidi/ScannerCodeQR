@@ -62,11 +62,11 @@ class ViewFinderOverlay(context: Context, attrs: AttributeSet) : View(context, a
     private val boxCornerRadius: Float =
         context.resources.getDimensionPixelOffset(R.dimen.barcode_reticle_corner_radius).toFloat()
 
-    public var boxRect: RectF? = null
-    public var boxRectTop: Int = 0
-    public var boxRectBottom: Int = 0
-    public var boxRectLeft: Int = 0
-    public var boxRectRight: Int = 0
+     var boxRect: RectF? = null
+     var boxRectTop: Int = 0
+     var boxRectBottom: Int = 0
+     var boxRectLeft: Int = 0
+     var boxRectRight: Int = 0
 
 
     fun getBoxWidth(): Int {
@@ -88,7 +88,7 @@ class ViewFinderOverlay(context: Context, attrs: AttributeSet) : View(context, a
         val cx = overlayWidth / 2
         val cy = overlayHeight / 2
         boxRect =
-            RectF(cx - boxWidth / 2, cy - boxHeight / 2, cx + boxWidth / 2, cy + boxHeight / 2)
+            RectF(cx - boxWidth / 2, cy - boxHeight  , cx + boxWidth / 2, cy + boxHeight)
 
         boxRectTop = (cy - boxHeight / 2).toInt()
         boxRectBottom = (cy + boxHeight / 2).toInt()
@@ -112,11 +112,11 @@ class ViewFinderOverlay(context: Context, attrs: AttributeSet) : View(context, a
             canvas.drawRoundRect(it, boxCornerRadius, boxCornerRadius, boxPaint)
 
             //   canvas.drawLine("", "", "", "")
-            canvas.drawLine(it.left, it.top, it.right, it.bottom, boxLinePaint)
+          //  canvas.drawLine(it.left, it.top, it.right, it.bottom, boxLinePaint)
 
             var lg = LinearGradient(0f, 0f,45f,45f,Color.BLUE,Color.RED,Shader.TileMode.CLAMP)
             boxLinePaint.shader =lg
-            canvas.drawLine(it.left, it.top, it.right, it.top+20, boxLinePaint)
+        //    canvas.drawLine(it.left, it.top, it.right, it.top+20, boxLinePaint)
 
 
             Log.d("TAG", "onDraw:left " + it.left)

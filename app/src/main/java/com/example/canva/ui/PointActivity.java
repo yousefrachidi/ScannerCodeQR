@@ -16,6 +16,7 @@ import com.example.canva.analyzer.MLKitBarcodeAnalyzer;
 import com.example.canva.analyzer.ScanningResultListener;
 import com.example.canva.databinding.ActivityMainBinding;
 import com.example.canva.databinding.ActivityPointBinding;
+import com.example.canva.ui.tools.Tools;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import android.graphics.Rect;
@@ -29,6 +30,7 @@ import android.view.Surface;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 import java.util.concurrent.ExecutorService;
@@ -52,15 +54,29 @@ public class PointActivity extends AppCompatActivity {
         binding = ActivityPointBinding.inflate(LayoutInflater.from(this));
         setContentView(binding.getRoot());
 
+
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorAccent));
 
         initView();
-
     }
 
     private void initView() {
 
-        runOnUiThread(() -> new Handler().postDelayed(this::addDots, 1000));
+        runOnUiThread(() -> new Handler().postDelayed(() -> {
+            int[] location = new int[2];
+            binding.parentRelative.getLocationOnScreen(location);
+            Rect rectf = new Rect();
+
+            //For coordinates location relative to the parent
+            binding.parentRelative.getLocalVisibleRect(rectf);
+
+            //For coordinates location relative to the screen/display
+            binding.parentRelative.getGlobalVisibleRect(rectf);
+            Tools.addDots(50, rectf.right, rectf.top, rectf.bottom, this, binding.getRoot());
+
+            Tools.addLine(1743, 711, 217, 217, this, binding.getRoot());
+
+        }, 500));
 
         //
         cameraProviderFuture = ProcessCameraProvider.getInstance(this);
@@ -76,51 +92,6 @@ public class PointActivity extends AppCompatActivity {
         }, ContextCompat.getMainExecutor(this));
     }
 
-    private void addDots() {
-        int[] location = new int[2];
-        binding.parentRelative.getLocationOnScreen(location);
-        Rect rectf = new Rect();
-
-//For coordinates location relative to the parent
-        binding.parentRelative.getLocalVisibleRect(rectf);
-
-//For coordinates location relative to the screen/display
-        binding.parentRelative.getGlobalVisibleRect(rectf);
-
-        Log.d("*->WIDTH        :", String.valueOf(rectf.width()));
-        Log.d("*->HEIGHT       :", String.valueOf(rectf.height()));
-        Log.d("*->left         :", String.valueOf(rectf.left));
-        Log.d("*->right        :", String.valueOf(rectf.right));
-        Log.d("*->top          :", String.valueOf(rectf.top));
-        Log.d("*->bottom       :", String.valueOf(rectf.bottom));
-
-        /////
-        for (int i = 1; i <= 6; i++) {
-            int posX = random(rectf.left, rectf.right - 30);
-            View viewLine = LayoutInflater.from(this).inflate(R.layout.circle_layout, null);
-
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(60, 60);
-            viewLine.setLayoutParams(params);
-
-            viewLine.setX(posX);
-            viewLine.setPivotX(posX + 50);
-            viewLine.setY(50);
-            viewLine.setPivotY( 50);
-            //animation
-            View btn = viewLine.findViewById(R.id.circlebutton);
-            Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animate_zoom);
-            btn.startAnimation(animation);
-            binding.parentRelative.addView(viewLine);
-        }
-    }
-
-    private int random(int left, int right) {
-        //Generate random int value from left to right
-        System.out.println("Random value in int from " + left + " to " + right + ":");
-        int random_int = (int) Math.floor(Math.random() * (right - left + 3) + left);
-        System.out.println("Random value  " + random_int);
-        return random_int;
-    }
 
     private void bindPreview(ProcessCameraProvider cameraProvider) {
         if (isDestroyed() || isFinishing()) {
@@ -145,13 +116,16 @@ public class PointActivity extends AppCompatActivity {
             @Override
             public void onOrientationChanged(int orientation) {
                 // Monitors orientation values to determine the target rotation value
-                int rotation = Surface.ROTATION_180;
-//                int rotation  = when (orientation) {
-//                    in 45..134 -> Surface.ROTATION_270
-//                    in 135..224 -> Surface.ROTATION_180
-//                    in 225..314 -> Surface.ROTATION_90
-//                    else -> Surface.ROTATION_0
-//                }
+                int rotation;
+                if (orientation >= 45 && orientation <= 134) {
+                    rotation = Surface.ROTATION_270;
+                } else if (orientation >= 135 && orientation <= 224) {
+                    rotation = Surface.ROTATION_180;
+                } else if (orientation >= 225 && orientation <= 314) {
+                    rotation = Surface.ROTATION_90;
+                } else {
+                    rotation = Surface.ROTATION_0;
+                }
 
                 imageAnalysis.setTargetRotation(rotation);
             }
@@ -179,33 +153,25 @@ public class PointActivity extends AppCompatActivity {
         Camera camera =
                 cameraProvider.bindToLifecycle(this, cameraSelector, imageAnalysis, preview);
 
-        if (camera.getCameraInfo().hasFlashUnit() == true) {
-            binding.ivFlashControl.setVisibility(View.VISIBLE);
+        if (camera.getCameraInfo().hasFlashUnit()) {
+            //binding.ivFlashControl.setVisibility(View.VISIBLE);
 
             binding.ivFlashControl.setOnClickListener(view -> {
                 camera.getCameraControl().enableTorch(!flashEnabled);
             });
 
-            camera.getCameraInfo().getTorchState().observe(this, new Observer<Integer>() {
-                @Override
-                public void onChanged(Integer integer) {
-                    if (integer != null) {
-                        if (integer == TorchState.ON) {
-                            flashEnabled = true;
-                            binding.ivFlashControl.setImageResource(R.drawable.ic_round_flash_on);
-                        } else {
-                            flashEnabled = false;
-                            binding.ivFlashControl.setImageResource(R.drawable.ic_round_flash_off);
-                        }
+            camera.getCameraInfo().getTorchState().observe(this, integer -> {
+                if (integer != null) {
+                    if (integer == TorchState.ON) {
+                        flashEnabled = true;
+                        binding.ivFlashControl.setImageResource(R.drawable.ic_round_flash_on);
+                    } else {
+                        flashEnabled = false;
+                        binding.ivFlashControl.setImageResource(R.drawable.ic_round_flash_off);
                     }
-
                 }
             });
-
-
         }
-
-
     }
 
     @Override

@@ -5,15 +5,18 @@
       <map>
         <entry key="..\:/Users/User One/AndroidStudioProjects/Canva/app/src/main/res/drawable-v24/flash_button_background.xml" value="0.1065" />
         <entry key="..\:/Users/User One/AndroidStudioProjects/Canva/app/src/main/res/drawable-v24/ic_launcher_background.xml" value="0.1065" />
+        <entry key="..\:/Users/User One/AndroidStudioProjects/Canva/app/src/main/res/drawable-v24/ic_line.xml" value="0.1" />
         <entry key="..\:/Users/User One/AndroidStudioProjects/Canva/app/src/main/res/drawable/circlebutton.xml" value="0.1235" />
         <entry key="..\:/Users/User One/AndroidStudioProjects/Canva/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1065" />
         <entry key="..\:/Users/User One/AndroidStudioProjects/Canva/app/src/main/res/drawable/ic_line.xml" value="0.183" />
         <entry key="..\:/Users/User One/AndroidStudioProjects/Canva/app/src/main/res/drawable/viewfinder_shape.xml" value="0.1415" />
+        <entry key="..\:/Users/User One/AndroidStudioProjects/Canva/app/src/main/res/layout-land/activity_barcode_scanning.xml" value="0.264" />
+        <entry key="..\:/Users/User One/AndroidStudioProjects/Canva/app/src/main/res/layout-land/activity_point.xml" value="0.42162162162162165" />
         <entry key="..\:/Users/User One/AndroidStudioProjects/Canva/app/src/main/res/layout/activity_barcode_scanning.xml" value="0.1359375" />
         <entry key="..\:/Users/User One/AndroidStudioProjects/Canva/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/User One/AndroidStudioProjects/Canva/app/src/main/res/layout/activity_point.xml" value="0.264" />
         <entry key="..\:/Users/User One/AndroidStudioProjects/Canva/app/src/main/res/layout/activity_test.xml" value="0.24375" />
-        <entry key="..\:/Users/User One/AndroidStudioProjects/Canva/app/src/main/res/layout/circle_layout.xml" value="0.17916666666666667" />
+        <entry key="..\:/Users/User One/AndroidStudioProjects/Canva/app/src/main/res/layout/circle_layout.xml" value="1.0" />
         <entry key="..\:/Users/User One/AndroidStudioProjects/Canva/app/src/main/res/layout/fragment_scanner_result_dialog_list_dialog.xml" value="0.1359375" />
         <entry key="..\:/Users/User One/AndroidStudioProjects/Canva/app/src/main/res/layout/line.xml" value="0.259375" />
         <entry key="..\:/Users/User One/AndroidStudioProjects/Canva/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1295" />

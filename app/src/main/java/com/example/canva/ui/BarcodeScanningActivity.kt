@@ -190,7 +190,7 @@ class BarcodeScanningActivity : AppCompatActivity() {
             cameraProvider?.bindToLifecycle(this, cameraSelector, imageAnalysis, preview)
 
         if (camera?.cameraInfo?.hasFlashUnit() == true) {
-            binding.ivFlashControl.visibility = View.VISIBLE
+         //   binding.ivFlashControl.visibility = View.VISIBLE
 
             binding.ivFlashControl.setOnClickListener {
                 camera.cameraControl.enableTorch(!flashEnabled)
