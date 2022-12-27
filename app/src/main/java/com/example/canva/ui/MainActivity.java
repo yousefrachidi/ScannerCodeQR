@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(LayoutInflater.from(this));
         setContentView(binding.getRoot());
-
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorAccent));
 
 
@@ -63,45 +62,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        /*
-        relativeLayout = findViewById(R.id.parent);
-        RelativeLayout relativeLayout3 = findViewById(R.id.parentt);
-
-        View viewLine = LayoutInflater.from(this).inflate(R.layout.line, null);
-
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.MATCH_PARENT,
-                50
-        );
-        params.setMargins(30, 0, 30, 0);
-
-        // background
-        viewLine.setBackground(getDrawable(R.drawable.ic_line));
-
-        //animation
-        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.blink_animation);
-        viewLine.startAnimation(animation);
-
-        //  relativeLayout.addView(view, params);
-
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        //line
-                        relativeLayout.addView(viewLine, params);
-                        ///button
-                        addLayoutCircle(relativeLayout);
-                    }
-                }, 1000);
-            }
-        });
-
-
-
-        *///
     }
 
     private void startScanning() {
@@ -145,97 +105,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, cameraPermissionRequestCode);
             }
         }
-    }
-
-    private void addLayoutCircle(RelativeLayout parentLayout) {
-        int[] location = new int[2];
-        parentLayout.getLocationOnScreen(location);
-        Rect rectf = new Rect();
-
-        //For coordinates location relative to the parent
-        parentLayout.getLocalVisibleRect(rectf);
-
-        //For coordinates location relative to the screen/display
-        parentLayout.getGlobalVisibleRect(rectf);
-
-        Log.d("*->WIDTH        :", String.valueOf(rectf.width()));
-        Log.d("*->HEIGHT       :", String.valueOf(rectf.height()));
-        Log.d("*->left         :", String.valueOf(rectf.left));
-        Log.d("*->right        :", String.valueOf(rectf.right));
-        Log.d("*->top          :", String.valueOf(rectf.top));
-        Log.d("*->bottom       :", String.valueOf(rectf.bottom));
-
-        /////
-        for (int i = 1; i <= 6; i++) {
-            int posX = random(rectf.left, rectf.right - 30);
-            View viewLine = LayoutInflater.from(this).inflate(R.layout.circle_layout, null);
-
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(50, 50);
-            viewLine.setLayoutParams(params);
-
-            viewLine.setX(posX);
-            viewLine.setPivotX(posX + 50);
-            //animation
-            Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animate_zoom);
-            viewLine.startAnimation(animation);
-            parentLayout.addView(viewLine);
-        }
-
-    }
-
-    private int random(int left, int right) {
-        //Generate random int value from left to right
-        System.out.println("Random value in int from " + left + " to " + right + ":");
-        int random_int = (int) Math.floor(Math.random() * (right - left + 3) + left);
-        System.out.println("Random value  " + random_int);
-        return random_int;
-    }
-
-    private void test1(RelativeLayout parentLayout) {
-        int[] location = new int[2];
-        parentLayout.getLocationOnScreen(location);
-        Rect rectf = new Rect();
-
-//For coordinates location relative to the parent
-        parentLayout.getLocalVisibleRect(rectf);
-
-//For coordinates location relative to the screen/display
-        parentLayout.getGlobalVisibleRect(rectf);
-
-        Log.d("*->WIDTH        :", String.valueOf(rectf.width()));
-        Log.d("*->HEIGHT       :", String.valueOf(rectf.height()));
-        Log.d("*->left         :", String.valueOf(rectf.left));
-        Log.d("*->right        :", String.valueOf(rectf.right));
-        Log.d("*->top          :", String.valueOf(rectf.top));
-        Log.d("*->bottom       :", String.valueOf(rectf.bottom));
-
-        /////
-        for (int i = 1; i <= 6; i++) {
-            int posX = random(rectf.left, rectf.right - 30);
-            DrawLine drawLine = new DrawLine(this, 30, 30);
-            drawLine.setX(posX);
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(50, 50 + (i * 10));
-            drawLine.setLayoutParams(params);
-
-            ///add animation
-            Animation animation1 = AnimationUtils.loadAnimation(this, R.anim.animate_zoom);
-            drawLine.startAnimation(animation1);
-
-            parentLayout.addView(drawLine);
-        }
-    }
-
-    private void test(RelativeLayout parentLayout) {
-        DrawLine drawLine = new DrawLine(this, parentLayout.getWidth() + 30, parentLayout.getHeight() + 30);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(50, 50);
-
-        drawLine.setLayoutParams(params);
-
-        ///add animation
-        Animation animation1 = AnimationUtils.loadAnimation(this, R.anim.animate_zoom);
-        drawLine.startAnimation(animation1);
-
-        parentLayout.addView(drawLine);
     }
 
 }

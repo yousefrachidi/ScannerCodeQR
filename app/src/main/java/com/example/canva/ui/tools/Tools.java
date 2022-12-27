@@ -8,28 +8,34 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 
+import androidx.core.content.ContextCompat;
+
 import com.example.canva.R;
+
+import java.util.Random;
 
 public class Tools {
 
-    private static int countDots = 6;
+    private static int countDots = 12;
     private static int withDot = 60;
     private static int heightDot = 60;
 
-    public static void addDots(int posX, int povX, int posY, int povY, Context context, RelativeLayout parentRelative) {
+    public static void addDots(int posX, int posY, int povX, int povY, Context context, RelativeLayout parentRelative) {
 
         ///add parent bar
         RelativeLayout parent = new RelativeLayout(context);
-        RelativeLayout.LayoutParams paramsParent = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        RelativeLayout.LayoutParams paramsParent = new RelativeLayout.LayoutParams(povX - posX, povY - posY);
+
         parent.setX(posX);
         parent.setY(posY);
         parent.setLayoutParams(paramsParent);
 
+      //  parent.setBackgroundColor(ContextCompat.getColor(context, R.color.colorAccent));
+
         /////
         for (int i = 1; i <= countDots; i++) {
-            int posXDot = randomPosX(posX, povX - (withDot / 2), countDots, i,"x");
-            int posYDot = randomPosX(posY, povY - (heightDot / 2), countDots, i,"y");
+            int posXDot = randomPosX(posX, povX - (withDot / 2), countDots);
+            int posYDot = randomPosX(posY, povY - (heightDot / 2), countDots);
             View viewDot = LayoutInflater.from(context).inflate(R.layout.circle_layout, null);
 
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(withDot, heightDot);
@@ -48,18 +54,36 @@ public class Tools {
         parentRelative.addView(parent);
     }
 
-    private static int randomPosX(int start, int end, int countItems, int step,String type) {
+    private static int randomPosX(int start, int end, int countItems) {
+        Random rn = new Random();
         //Generate random int value from left to right
-        System.out.println(type+" Random value in int from " + start + " to " + end + ":");
+        System.out.println(" Random value in int from " + start + " to " + end + ":");
+        int widget = end - start;
+        int widgetPart = widget / countItems;
+
+        int startPart = (widgetPart * (rn.nextInt(countItems) + 1));
+        System.out.println(" Random startPart " + startPart);
+        int endPart = startPart + widgetPart;
+
+
+        int randomNum = rn.nextInt((endPart - startPart) + 1) + startPart;
+
+        System.out.println(" Random value  " + randomNum);
+        return randomNum;
+    }
+
+    private static int random(int start, int end, int countItems, int step, String type) {
+        //Generate random int value from left to right
+        System.out.println(" Random value in int from " + start + " to " + end + ":");
         float widget = end - start;
         float widgetPart = widget / countItems;
 
         float startPart = widgetPart * step;
-        System.out.println(type+" Random startPart " +startPart  );
+        System.out.println(" Random startPart " + startPart);
         float endPart = startPart + widgetPart;
 
         int random_int = (int) Math.floor(Math.random() * (endPart - startPart + 3) + startPart);
-        System.out.println(type+" Random value  " + random_int);
+        System.out.println(" Random value  " + random_int);
         return random_int;
     }
 

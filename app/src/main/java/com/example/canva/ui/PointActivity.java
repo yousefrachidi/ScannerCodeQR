@@ -72,11 +72,11 @@ public class PointActivity extends AppCompatActivity {
 
             //For coordinates location relative to the screen/display
             binding.parentRelative.getGlobalVisibleRect(rectf);
-            Tools.addDots(50, rectf.right, rectf.top, rectf.bottom, this, binding.getRoot());
+            Tools.addDots(217, 217, 1743, 711, this, binding.getRoot());
 
             Tools.addLine(1743, 711, 217, 217, this, binding.getRoot());
 
-        }, 500));
+        }, 1000));
 
         //
         cameraProviderFuture = ProcessCameraProvider.getInstance(this);
